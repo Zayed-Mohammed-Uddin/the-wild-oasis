@@ -1,7 +1,7 @@
-import Heading from "../ui/Heading";
+import Header from "../ui/Header";
 
 function Settings() {
-  return <Heading as="h1">Update hotel settings</Heading>;
+  return <Header as="h1">Update hotel settings</Header>;
 }
 
 export default Settings;

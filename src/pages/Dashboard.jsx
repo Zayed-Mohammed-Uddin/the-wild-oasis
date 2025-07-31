@@ -1,10 +1,10 @@
-import Heading from "../ui/Heading";
+import Header from "../ui/Header";
 import Row from "../ui/Row";
 
 function Dashboard() {
   return (
     <Row type="horizontal">
-      <Heading as="h1">Dashboard</Heading>
+      <Header as="h1">Dashboard</Header>
       <p>TEST</p>
     </Row>
   );
