@@ -1,29 +1,20 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
+import Heading from "./Heading";
 
-const Header = styled.header`
-	${(props) =>
-		props.as === "h1" &&
-		css`
-			font-size: 3rem;
-			font-weight: 700;
-			color: var(--color-grey-800);
-		`}
-	${(props) =>
-		props.as === "h2" &&
-		css`
-			font-size: 2rem;
-			color: var(--color-grey-700);
-			font-weight: 600;
-		`}
-    ${(props) =>
-		props.as === "h3" &&
-		css`
-			font-size: 2rem;
-			color: var(--color-grey-600);
-			font-weight: 600;
-		`}
-
+const StyledHeader = styled.header`
+	padding: 20px;
+	background-color: #f1f1f1;
 	text-align: center;
+	grid-column: 2 / -1;
+	grid-row: 1;
 `;
+
+function Header() {
+	return (
+		<StyledHeader>
+			<Heading as="h1">Header</Heading>
+		</StyledHeader>
+	);
+}
 
 export default Header;

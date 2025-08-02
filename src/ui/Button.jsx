@@ -49,14 +49,9 @@ const variations = {
 };
 
 const Button = styled.button`
-	font-size: 1.4rem;
-	padding: 1.2rem 1.6rem;
-	color: var(--color-brand-50);
-	background-color: var(--color-brand-600);
 	border: none;
 	border-radius: var(--border-radius-sm);
 	cursor: pointer;
-	margin: 2rem;
 
 	${(props) => sizes[props.sizes] || sizes.medium}
 	${(props) => variations[props.variations] || variations.primary}
