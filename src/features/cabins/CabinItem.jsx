@@ -1,10 +1,16 @@
 import styled from "styled-components";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCabin } from "../../services/apiCabins";
-import { StyledRow } from "../../ui/Table";
+import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
+
 import { formatCurrency } from "../../utils/helpers";
+import { useDeleteCabin } from "./useDeleteCabin";
+import { useCreateCabin } from "./useCreateCabin";
+
+import CreateCabinForm from "./CreateCabinForm";
+import Table from "../../ui/Table";
 import Button from "../../ui/Button";
-import toast from "react-hot-toast";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import Menus from "../../ui/Menus";
 
 const Img = styled.img`
 	display: block;
@@ -38,35 +44,78 @@ const Discount = styled.div`
 `;
 
 function CabinItem({ cabin }) {
-	const queryClient = useQueryClient();
+	const { isDeleting, deleteCabin } = useDeleteCabin();
+	const { createCabin, isCreating } = useCreateCabin();
 
-	const { mutate: deleteCabinMutation, isLoading: isDeleting } = useMutation({
-		mutationFn: deleteCabin,
-		onSuccess: () => {
-			queryClient.invalidateQueries(["cabins"]);
-			toast.success("Cabin deleted successfully!");
-		},
-		onError: (error) => {
-			toast.error("Error deleting cabin:", error.message);
-		},
-	});
+	const handleDuplicate = () => {
+		createCabin({
+			name: `Copy of ${cabin.name}`,
+			image: cabin.image,
+			maxCapacity: cabin.maxCapacity,
+			regularPrice: cabin.regularPrice,
+			discount: cabin.discount,
+			description: cabin.description,
+		});
+	};
 
 	return (
-		<StyledRow role="row" columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
-			<Img src={cabin.image} alt={cabin.name} />
-			<Cabin>{cabin.name}</Cabin>
-			<Capacity>{cabin.maxCapacity}</Capacity>
-			<Price>{formatCurrency(cabin.regularPrice)}</Price>
-			<Discount>{formatCurrency(cabin.discount)}</Discount>
-			<Button
-				sizes="small"
-				variations="danger"
-				onClick={() => deleteCabinMutation(cabin.id)}
-				disabled={isDeleting}
-			>
-				{isDeleting ? "Deleting..." : "Delete"}
-			</Button>
-		</StyledRow>
+		<>
+			<Table.Row role="row" $columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
+				<Img src={cabin.image} alt={cabin.name} />
+				<Cabin>{cabin.name}</Cabin>
+				<Capacity>{cabin.maxCapacity}</Capacity>
+				<Price>{formatCurrency(cabin.regularPrice)}</Price>
+				<Discount>
+					{cabin.discount ? (
+						formatCurrency(cabin.discount)
+					) : (
+						<span>&mdash;</span>
+					)}
+				</Discount>
+				<div style={{ display: "flex", gap: "0.8rem" }}>
+					<Modal>
+						<Menus>
+							<Menus.Menu>
+								<Menus.Toggle id={cabin.id} />
+								<Menus.List id={cabin.id}>
+									<Menus.Button
+										icon={<HiSquare2Stack />}
+										onClick={handleDuplicate}
+										disabled={isCreating}
+									>
+										Duplicate
+									</Menus.Button>
+
+									<Modal.Open opens="edit">
+										<Menus.Button icon={<HiPencil />}>
+											Edit
+										</Menus.Button>
+									</Modal.Open>
+
+									<Modal.Open opens="delete">
+										<Menus.Button icon={<HiTrash />}>
+											Delete
+										</Menus.Button>
+									</Modal.Open>
+								</Menus.List>
+							</Menus.Menu>
+						</Menus>
+
+						<Modal.Window name="edit">
+							<CreateCabinForm cabinToEdit={cabin} />
+						</Modal.Window>
+
+						<Modal.Window name="delete">
+							<ConfirmDelete
+								resourceName="cabins"
+								disabled={isDeleting}
+								onConfirm={() => deleteCabin(cabin.id)}
+							/>
+						</Modal.Window>
+					</Modal>
+				</div>
+			</Table.Row>
+		</>
 	);
 }
 

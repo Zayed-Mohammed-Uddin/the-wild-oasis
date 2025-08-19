@@ -1,6 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
@@ -8,39 +6,64 @@ import Input from "../../ui/Input";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import Button from "../../ui/Button";
-import { createCabin } from "../../services/apiCabins";
+import { useCreateCabin } from "./useCreateCabin";
+import { useUpdateCabin } from "./useUpdateCabin";
 
-function CreateCabinForm() {
-	const { register, handleSubmit, reset, getValues, formState } = useForm();
-	const { errors } = formState;
-	const queryClient = useQueryClient();
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
+	const { createCabin, isCreating } = useCreateCabin();
+	const { updateCabin, isEditing } = useUpdateCabin();
 
-	const { mutate: createCabinMutation, isLoading: isCreating } = useMutation({
-		mutationFn: createCabin,
-		onSuccess: () => {
-			queryClient.invalidateQueries(["cabins"]);
-			toast.success("Cabin created successfully!");
-			reset();
-		},
-		onError: (error) => {
-			toast.error("Error creating cabin: " + error.message);
-		},
+	// editing a cabin
+	const { id: editID, ...editValues } = cabinToEdit;
+	const editSession = Boolean(editID);
+
+	// form handling
+	const { register, handleSubmit, reset, getValues, formState } = useForm({
+		defaultValues: editSession ? editValues : {},
 	});
+	const { errors } = formState;
+	const isWorking = isCreating || isEditing;
 
 	const onSubmit = (data) => {
+		const image =
+			typeof data.image === "string" ? data.image : data.image[0];
+
 		const cabinData = {
 			...data,
-			image: data.image[0],
+			image,
 		};
-		createCabinMutation(cabinData);
+
+		if (editSession) {
+			updateCabin(
+				{ id: editID, cabin: cabinData },
+				{
+					onSuccess: () => {
+						reset();
+						onCloseModal?.();
+					},
+				}
+			);
+		} else {
+			createCabin(cabinData, {
+				onSuccess: () => {
+					reset();
+					onCloseModal?.();
+				},
+			});
+		}
 	};
 
 	return (
-		<Form onSubmit={handleSubmit(onSubmit)}>
+		<Form
+			onSubmit={handleSubmit(onSubmit)}
+			type={onCloseModal ? "modal" : "regular"}
+		>
 			<FormRow label="Cabin name" error={errors?.name?.message}>
 				<Input
 					type="text"
 					id="name"
+					disabled={isWorking}
+					placeholder="Enter cabin name"
 					{...register("name", { required: "The field is required" })}
 				/>
 			</FormRow>
@@ -52,6 +75,8 @@ function CreateCabinForm() {
 				<Input
 					type="number"
 					id="maxCapacity"
+					disabled={isWorking}
+					placeholder="Enter maximum capacity"
 					{...register("maxCapacity", {
 						required: "The field is required",
 						min: {
@@ -69,6 +94,8 @@ function CreateCabinForm() {
 				<Input
 					type="number"
 					id="regularPrice"
+					disabled={isWorking}
+					placeholder="Enter regular price"
 					{...register("regularPrice", {
 						required: "The field is required",
 						min: {
@@ -83,9 +110,9 @@ function CreateCabinForm() {
 				<Input
 					type="number"
 					id="discount"
-					defaultValue={0}
+					disabled={isWorking}
+					placeholder="Enter discount"
 					{...register("discount", {
-						required: "The field is required",
 						validate: (value) =>
 							Number(value) < Number(getValues().regularPrice) ||
 							"Discount must be less than the regular price",
@@ -95,9 +122,10 @@ function CreateCabinForm() {
 
 			<FormRow label="Description" error={errors?.description?.message}>
 				<Textarea
-					type="number"
 					id="description"
 					defaultValue=""
+					disabled={isWorking}
+					placeholder="Enter cabin description"
 					{...register("description", {
 						required: "The field is required",
 					})}
@@ -108,18 +136,33 @@ function CreateCabinForm() {
 				<FileInput
 					id="image"
 					accept="image/*"
+					disabled={isWorking}
 					{...register("image", {
-						required: "The field is required",
+						required: editSession ? false : "The field is required",
 					})}
 				/>
 			</FormRow>
 
 			<FormRow>
-				<Button variation="secondary" type="reset">
+				<Button
+					$variations="secondary"
+					type="reset"
+					disabled={isWorking}
+				>
 					Reset
 				</Button>
-				<Button type="submit" disabled={isCreating}>
-					{isCreating ? "Creating..." : "Add cabin"}
+				<Button
+					$variations="primary"
+					type="submit"
+					disabled={isWorking}
+				>
+					{editSession
+						? isEditing
+							? "Updating..."
+							: "Update cabin"
+						: isCreating
+						? "Creating..."
+						: "Add cabin"}
 				</Button>
 			</FormRow>
 		</Form>

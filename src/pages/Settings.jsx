@@ -1,7 +1,14 @@
-import Header from "../ui/Heading";
+import UpdateSettingsForm from "../features/settings/UpdateSettingsForm";
+import Heading from "../ui/Heading";
+import Row from "../ui/Row";
 
 function Settings() {
-	return <Header as="h1">Update hotel settings</Header>;
+	return (
+		<Row>
+			<Heading as="h1">Update hotel settings</Heading>
+			<UpdateSettingsForm />
+		</Row>
+	);
 }
 
 export default Settings;

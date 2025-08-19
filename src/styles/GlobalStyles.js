@@ -104,7 +104,6 @@ input:disabled {
 }
 
 input:focus,
-button:focus,
 textarea:focus,
 select:focus {
   outline: 2px solid var(--color-brand-600);
@@ -123,6 +122,16 @@ a {
 
 ul {
   list-style: none;
+}
+
+li:first-child button {
+  border-top-left-radius: var(--border-radius-md);
+  border-top-right-radius: var(--border-radius-md);
+}
+
+li:last-child button {
+  border-bottom-left-radius: var(--border-radius-md);
+  border-bottom-right-radius: var(--border-radius-md);
 }
 
 p,

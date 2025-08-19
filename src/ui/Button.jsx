@@ -18,6 +18,12 @@ const sizes = {
 		padding: 1.2rem 2.4rem;
 		font-weight: 500;
 	`,
+	full: css`
+		width: 100%;
+		font-size: 1.6rem;
+		padding: 1.2rem 2.4rem;
+		font-weight: 500;
+	`,
 };
 
 const variations = {
@@ -53,12 +59,8 @@ const Button = styled.button`
 	border-radius: var(--border-radius-sm);
 	cursor: pointer;
 
-	${(props) => sizes[props.sizes] || sizes.medium}
-	${(props) => variations[props.variations] || variations.primary}
-
-	&:hover {
-		background-color: var(--color-brand-700);
-	}
+	${(props) => sizes[props.$sizes] || sizes.medium}
+	${(props) => variations[props.$variations] || variations.primary}
 `;
 
 export default Button;
