@@ -57,10 +57,11 @@ const variations = {
 const Button = styled.button`
 	border: none;
 	border-radius: var(--border-radius-sm);
-	cursor: pointer;
 
-	${(props) => sizes[props.$sizes] || sizes.medium}
-	${(props) => variations[props.$variations] || variations.primary}
+	${(props) => `cursor: ${props.$cursor}`};
+
+	${(props) => sizes[props.$sizes] || sizes.medium};
+	${(props) => variations[props.$variations] || variations.primary};
 `;
 
 export default Button;

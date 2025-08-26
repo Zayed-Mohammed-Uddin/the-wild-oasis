@@ -24,7 +24,7 @@ const StyledHeader = styled(CommonRow)`
 	border-bottom: 1px solid var(--color-grey-100);
 	text-transform: uppercase;
 	letter-spacing: 0.4px;
-	font-weight: 600;
+	font-weight: bold;
 	color: var(--color-grey-600);
 `;
 
@@ -78,7 +78,7 @@ function Body({ data, render }) {
 	return data.length > 0 ? (
 		<StyledBody>{data.map(render)}</StyledBody>
 	) : (
-		<Empty>No cabins found</Empty>
+		<Empty>No data available to show at this moment</Empty>
 	);
 }
 

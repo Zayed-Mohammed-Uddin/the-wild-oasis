@@ -7,6 +7,7 @@ const Heading = styled.h1`
 			font-size: 3rem;
 			font-weight: 700;
 			color: var(--color-grey-800);
+			text-align: left;
 		`}
 	${(props) =>
 		props.as === "h2" &&
@@ -14,6 +15,7 @@ const Heading = styled.h1`
 			font-size: 2rem;
 			color: var(--color-grey-700);
 			font-weight: 600;
+			text-align: left;
 		`}
     ${(props) =>
 		props.as === "h3" &&
@@ -21,9 +23,14 @@ const Heading = styled.h1`
 			font-size: 2rem;
 			color: var(--color-grey-600);
 			font-weight: 600;
+			text-align: left;
 		`}
 
-	text-align: left;
+	${(props) =>
+		props.$align === "center" &&
+		css`
+			text-align: center;
+		`}
 `;
 
 export default Heading;

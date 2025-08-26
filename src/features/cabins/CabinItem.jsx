@@ -7,7 +7,6 @@ import { useCreateCabin } from "./useCreateCabin";
 
 import CreateCabinForm from "./CreateCabinForm";
 import Table from "../../ui/Table";
-import Button from "../../ui/Button";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Menus from "../../ui/Menus";

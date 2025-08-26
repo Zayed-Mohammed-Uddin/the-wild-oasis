@@ -28,9 +28,12 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 		const image =
 			typeof data.image === "string" ? data.image : data.image[0];
 
+		const discountValue = data.discount === "" ? 0 : Number(data.discount);
+
 		const cabinData = {
 			...data,
 			image,
+			discount: discountValue,
 		};
 
 		if (editSession) {
@@ -58,7 +61,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 			onSubmit={handleSubmit(onSubmit)}
 			type={onCloseModal ? "modal" : "regular"}
 		>
-			<FormRow label="Cabin name" error={errors?.name?.message}>
+			<FormRow label="Cabin name*" error={errors?.name?.message}>
 				<Input
 					type="text"
 					id="name"
@@ -69,7 +72,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 			</FormRow>
 
 			<FormRow
-				label="Maximum capacity"
+				label="Maximum capacity*"
 				error={errors?.maxCapacity?.message}
 			>
 				<Input
@@ -88,7 +91,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 			</FormRow>
 
 			<FormRow
-				label="Regular price"
+				label="Regular price*"
 				error={errors?.regularPrice?.message}
 			>
 				<Input
@@ -120,7 +123,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 				/>
 			</FormRow>
 
-			<FormRow label="Description" error={errors?.description?.message}>
+			<FormRow label="Description*" error={errors?.description?.message}>
 				<Textarea
 					id="description"
 					defaultValue=""
@@ -132,7 +135,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 				/>
 			</FormRow>
 
-			<FormRow label="Cabin photo" error={errors?.image?.message}>
+			<FormRow label="Cabin photo*" error={errors?.image?.message}>
 				<FileInput
 					id="image"
 					accept="image/*"

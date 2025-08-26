@@ -5,19 +5,20 @@ import {
 } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Toaster } from "react-hot-toast";
 
+import GlobalStyles from "./styles/GlobalStyles";
 import AppLayout from "./ui/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import Bookings from "./pages/Bookings";
+import Booking from "./pages/Booking";
 import Cabins from "./pages/Cabins";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import Account from "./pages/Account";
 import Login from "./pages/Login";
+import Checkin from "./pages/Checkin";
 import PageNotFound from "./pages/PageNotFound";
-import { StyledErrorFallback as Error } from "./ui/ErrorFallback";
-import GlobalStyles from "./styles/GlobalStyles";
-import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -31,7 +32,6 @@ const queryClient = new QueryClient({
 const router = createBrowserRouter([
 	{
 		element: <AppLayout />,
-		errorElement: <Error />,
 		children: [
 			{
 				path: "/",
@@ -44,6 +44,14 @@ const router = createBrowserRouter([
 			{
 				path: "/bookings",
 				element: <Bookings />,
+			},
+			{
+				path: "/bookings/:bookingID",
+				element: <Booking />,
+			},
+			{
+				path: "/checkin/:bookingID",
+				element: <Checkin />,
 			},
 			{
 				path: "/cabins",
