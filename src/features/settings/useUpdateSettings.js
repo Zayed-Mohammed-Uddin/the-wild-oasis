@@ -4,7 +4,7 @@ import { updateSettings as updateSettingsApi } from "../../services/apiSettings"
 
 export function useUpdateSettings() {
 	const queryClient = useQueryClient();
-	const { mutate: updateSettings, isLoading: isUpdating } = useMutation({
+	const { mutate: updateSettings, isPending: isUpdating } = useMutation({
 		mutationFn: updateSettingsApi,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["settings"] });

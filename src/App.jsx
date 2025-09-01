@@ -19,6 +19,7 @@ import Account from "./pages/Account";
 import Login from "./pages/Login";
 import Checkin from "./pages/Checkin";
 import PageNotFound from "./pages/PageNotFound";
+import ProtectedRoute from "./ui/ProtectedRoute";
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -31,7 +32,11 @@ const queryClient = new QueryClient({
 
 const router = createBrowserRouter([
 	{
-		element: <AppLayout />,
+		element: (
+			<ProtectedRoute>
+				<AppLayout />
+			</ProtectedRoute>
+		),
 		children: [
 			{
 				path: "/",

@@ -1,38 +1,111 @@
+import { useForm } from "react-hook-form";
 import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
-
-// Email regex: /\S+@\S+\.\S+/
+import { useSignup } from "./useSignup";
 
 function SignupForm() {
-  return (
-    <Form>
-      <FormRow label="Full name" error={""}>
-        <Input type="text" id="fullName" />
-      </FormRow>
+	const {
+		register,
+		formState: { errors },
+		watch,
+		handleSubmit,
+		reset,
+	} = useForm();
 
-      <FormRow label="Email address" error={""}>
-        <Input type="email" id="email" />
-      </FormRow>
+	const { signup, isLoading } = useSignup();
 
-      <FormRow label="Password (min 8 characters)" error={""}>
-        <Input type="password" id="password" />
-      </FormRow>
+	const onSubmit = ({ fullName, email, password }) => {
+		signup(
+			{ fullName, email, password },
+			{
+				onSettled: () => {
+					reset();
+				},
+			}
+		);
+	};
 
-      <FormRow label="Repeat password" error={""}>
-        <Input type="password" id="passwordConfirm" />
-      </FormRow>
+	return (
+		<Form onSubmit={handleSubmit(onSubmit)}>
+			<FormRow label="Full name" error={errors.fullName?.message}>
+				<Input
+					type="text"
+					id="fullName"
+					placeholder="Enter your full name"
+					disabled={isLoading}
+					{...register("fullName", {
+						required: "Full name is required",
+					})}
+				/>
+			</FormRow>
 
-      <FormRow>
-        {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
-          Cancel
-        </Button>
-        <Button>Create new user</Button>
-      </FormRow>
-    </Form>
-  );
+			<FormRow label="Email address" error={errors.email?.message}>
+				<Input
+					type="email"
+					id="email"
+					placeholder="Enter your email address"
+					disabled={isLoading}
+					{...register("email", {
+						required: "Email is required",
+						pattern: {
+							value: /\S+@\S+\.\S+/,
+							message: "Email is invalid",
+						},
+					})}
+				/>
+			</FormRow>
+
+			<FormRow
+				label="Password (min 8 characters)"
+				error={errors.password?.message}
+			>
+				<Input
+					type="password"
+					id="password"
+					placeholder="Enter your password"
+					disabled={isLoading}
+					{...register("password", {
+						required: "Password is required",
+						minLength: {
+							value: 8,
+							message: "Password must be at least 8 characters",
+						},
+					})}
+				/>
+			</FormRow>
+
+			<FormRow
+				label="Repeat password"
+				error={errors.passwordConfirm?.message}
+			>
+				<Input
+					type="password"
+					id="passwordConfirm"
+					placeholder="Repeat your password"
+					disabled={isLoading}
+					{...register("passwordConfirm", {
+						required: "Please repeat your password",
+						validate: (value) =>
+							value === watch("password") ||
+							"Passwords do not match",
+					})}
+				/>
+			</FormRow>
+
+			<FormRow>
+				<Button
+					$variations="secondary"
+					type="reset"
+					onClick={() => reset()}
+				>
+					Cancel
+				</Button>
+				<Button>Create new user</Button>
+			</FormRow>
+		</Form>
+	);
 }
 
 export default SignupForm;

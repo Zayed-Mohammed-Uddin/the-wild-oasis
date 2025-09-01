@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const StyledMain = styled.main`
-	padding: 4rem 4.8rem 6.4rem;
+	padding: 3rem;
 	background-color: var(--color-grey-50);
 	grid-column: 2 / -1;
 	grid-row: 2;

@@ -59,6 +59,7 @@ const Button = styled.button`
 	border-radius: var(--border-radius-sm);
 
 	${(props) => `cursor: ${props.$cursor}`};
+	${(props) => `height: ${props.$fullHeight ? "100%" : "auto"}`};
 
 	${(props) => sizes[props.$sizes] || sizes.medium};
 	${(props) => variations[props.$variations] || variations.primary};

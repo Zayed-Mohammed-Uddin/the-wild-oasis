@@ -1,18 +1,23 @@
 import styled from "styled-components";
-import Heading from "./Heading";
+import HeaderMenu from "./HeaderMenu";
+import UserAvatar from "../features/authentication/UserAvatar";
 
 const StyledHeader = styled.header`
-	padding: 20px;
-	background-color: #f1f1f1;
-	text-align: center;
-	grid-column: 2 / -1;
-	grid-row: 1;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 2.4rem;
+
+	background-color: var(--color-grey-50);
+	padding: 1.2rem 4.8rem;
+	border-bottom: 1px solid var(--color-grey-100);
 `;
 
 function Header() {
 	return (
 		<StyledHeader>
-			<Heading as="h1">Header</Heading>
+			<UserAvatar />
+			<HeaderMenu />
 		</StyledHeader>
 	);
 }

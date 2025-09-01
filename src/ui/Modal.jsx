@@ -79,7 +79,7 @@ function Modal({ children }) {
 
 function Open({ children, opens }) {
 	const { open } = useContext(ModalContext);
-	return <span onClick={() => open(opens)}>{children}</span>;
+	return <div onClick={() => open(opens)}>{children}</div>;
 }
 
 function Window({ name, children }) {
