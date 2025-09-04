@@ -20,6 +20,29 @@ const StyledModal = styled.div`
 	box-shadow: var(--shadow-lg);
 	padding: 3.2rem 4rem;
 	transition: all 0.5s;
+	max-width: 90vw;
+	max-height: 90vh;
+	overflow-y: auto;
+
+	/* Mobile styles */
+	@media (max-width: 768px) {
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 95vw;
+		max-width: 95vw;
+		max-height: 95vh;
+		padding: 2.4rem 2rem;
+		border-radius: var(--border-radius-md);
+	}
+
+	@media (max-width: 480px) {
+		width: 98vw;
+		max-width: 98vw;
+		max-height: 98vh;
+		padding: 2rem 1.6rem;
+		border-radius: var(--border-radius-sm);
+	}
 `;
 
 const Overlay = styled.div`
@@ -44,13 +67,38 @@ const CloseButton = styled.button`
 	position: absolute;
 	top: 1.2rem;
 	right: 1.5rem;
+
 	&:hover {
 		background-color: var(--color-grey-100);
 	}
+
 	& svg {
 		width: 2.4rem;
 		height: 2.4rem;
 		color: var(--color-grey-500);
+	}
+
+	/* Mobile styles - larger touch target */
+	@media (max-width: 768px) {
+		top: 1rem;
+		right: 1rem;
+		padding: 0.8rem;
+
+		& svg {
+			width: 2.8rem;
+			height: 2.8rem;
+		}
+	}
+
+	@media (max-width: 480px) {
+		top: 0.8rem;
+		right: 0.8rem;
+		padding: 1rem;
+
+		& svg {
+			width: 3rem;
+			height: 3rem;
+		}
 	}
 `;
 

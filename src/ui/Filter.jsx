@@ -9,6 +9,19 @@ const StyledFilter = styled.div`
 	padding: 0.4rem;
 	display: flex;
 	gap: 0.4rem;
+
+	/* Mobile styles */
+	@media (max-width: 640px) {
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 0.3rem;
+		padding: 0.3rem;
+	}
+
+	@media (max-width: 480px) {
+		gap: 0.2rem;
+		padding: 0.2rem;
+	}
 `;
 
 const FilterButton = styled.button`
@@ -31,6 +44,20 @@ const FilterButton = styled.button`
 	&:hover:not(:disabled) {
 		background-color: var(--color-brand-600);
 		color: var(--color-brand-50);
+	}
+
+	/* Mobile styles */
+	@media (max-width: 640px) {
+		font-size: 1.3rem;
+		padding: 0.4rem 0.7rem;
+		flex: 1;
+		min-width: max-content;
+	}
+
+	@media (max-width: 480px) {
+		font-size: 1.2rem;
+		padding: 0.35rem 0.6rem;
+		white-space: nowrap;
 	}
 `;
 

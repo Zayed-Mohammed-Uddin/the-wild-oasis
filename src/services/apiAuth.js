@@ -1,20 +1,46 @@
 import supabase, { supabaseUrl } from "./supabase";
 
-export async function signup({ fullName, email, password }) {
+export async function signup({ fullName, email, password, avatar }) {
+	let avatarUrl = null;
+
+	if (avatar) {
+		const fileName = `avatar-${crypto.randomUUID()}-${Math.random()}`;
+		const { error: storageError } = await supabase.storage
+			.from("avatars")
+			.upload(fileName, avatar);
+
+		if (storageError) throw new Error(storageError.message);
+		avatarUrl = `${supabaseUrl}/storage/v1/object/public/avatars/${fileName}`;
+	}
+
+	// Sign up with avatar in metadata
 	const { data, error } = await supabase.auth.signUp({
 		email,
 		password,
 		options: {
 			data: {
 				fullName,
-				avatar: "",
+				avatar: avatarUrl,
 			},
 		},
 	});
-	if (error) throw new Error(error.message);
+
+	if (error) {
+		if (
+			error.message.includes("already registered") ||
+			error.message.includes("already exists")
+		) {
+			throw new Error("A user with this email already exists");
+		}
+		throw new Error(error.message);
+	}
+
+	if (!data.user && !error) {
+		throw new Error("A user with this email already exists");
+	}
+
 	return data;
 }
-
 export async function login({ email, password }) {
 	const { data, error } = await supabase.auth.signInWithPassword({
 		email,
@@ -27,9 +53,9 @@ export async function login({ email, password }) {
 export async function updateCurrentUser({ fullName, password, avatar }) {
 	// 1. update the fullName or password
 
-	let updateData;
-	if (password) updateData = { password };
-	if (fullName) updateData = { data: { fullName } };
+	let updateData = {};
+	if (password) updateData.password = password;
+	if (fullName) updateData.data = { ...(updateData.data || {}), fullName };
 
 	const { data, error: updateError } = await supabase.auth.updateUser(
 		updateData

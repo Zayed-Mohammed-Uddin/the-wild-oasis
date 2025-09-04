@@ -7,7 +7,7 @@ import CabinTableOperations from "../features/cabins/CabinTableOperations";
 function Cabins() {
 	return (
 		<>
-			<Row type="horizontal">
+			<Row $type="horizontal">
 				<Header as="h1">All cabins</Header>
 				<CabinTableOperations />
 			</Row>

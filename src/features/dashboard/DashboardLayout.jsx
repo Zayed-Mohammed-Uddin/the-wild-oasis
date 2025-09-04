@@ -24,8 +24,7 @@ const StyledDashboardLayout = styled.div`
 	/* Mobile styles */
 	@media (max-width: 480px) {
 		grid-template-columns: 1fr;
-		/* Let rows size to content for a natural stack */
-		grid-template-rows: auto;
+		grid-template-rows: repeat(auto, 4) 34rem auto;
 		gap: 1.6rem;
 	}
 `;

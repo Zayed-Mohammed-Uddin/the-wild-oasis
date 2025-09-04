@@ -13,6 +13,16 @@ const Wrapper = styled.div`
 	max-width: 120rem;
 	margin: 0 auto;
 	gap: 3.2rem;
+
+	/* Mobile styles */
+	@media (max-width: 768px) {
+		max-width: 100%;
+		gap: 2.4rem;
+	}
+
+	@media (max-width: 480px) {
+		gap: 1.6rem;
+	}
 `;
 
 function AppLayout() {

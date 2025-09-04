@@ -25,8 +25,28 @@ const StyledFormRow = styled.div`
 		justify-content: flex-end;
 		gap: 1.2rem;
 	}
-`;
 
+	/* Mobile styles */
+	@media (max-width: 768px) {
+		grid-template-columns: 1fr;
+		gap: 1.2rem;
+		padding: 1.6rem 0;
+
+		&:has(button) {
+			justify-content: stretch;
+			flex-direction: column;
+
+			button {
+				width: 100%;
+			}
+		}
+	}
+
+	@media (max-width: 480px) {
+		gap: 1rem;
+		padding: 1.2rem 0;
+	}
+`;
 const Label = styled.label`
 	font-weight: 500;
 `;
@@ -34,9 +54,14 @@ const Label = styled.label`
 const Error = styled.span`
 	font-size: 1.4rem;
 	color: var(--color-red-700);
-`;
 
-function FormRow({label, children, error}) {
+	/* Mobile styles */
+	@media (max-width: 768px) {
+		font-size: 1.2rem;
+		margin-top: 0.4rem;
+	}
+`;
+function FormRow({ label, children, error }) {
 	return (
 		<StyledFormRow>
 			{label && <Label htmlFor={children.props.id}>{label}</Label>}

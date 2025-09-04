@@ -9,6 +9,12 @@ const StyledTable = styled.div`
 	background-color: var(--color-grey-0);
 	border-radius: 7px;
 	overflow: hidden;
+
+	/* Mobile styles */
+	@media (max-width: 768px) {
+		overflow-x: auto;
+		font-size: 1.2rem;
+	}
 `;
 
 const CommonRow = styled.div`
@@ -16,6 +22,17 @@ const CommonRow = styled.div`
 	grid-template-columns: ${(props) => props.$columns};
 	column-gap: 2.4rem;
 	align-items: center;
+
+	/* Mobile styles */
+	@media (max-width: 768px) {
+		column-gap: 1.6rem;
+		min-width: 600px;
+	}
+
+	@media (max-width: 480px) {
+		column-gap: 1.2rem;
+		min-width: 500px;
+	}
 `;
 
 const StyledHeader = styled(CommonRow)`
@@ -44,8 +61,19 @@ const StyledFooter = styled.footer`
 	display: flex;
 	justify-content: center;
 	padding: 1.2rem;
+	width: 100%;
+
 	&:not(:has(*)) {
 		display: none;
+	}
+
+	/* Mobile styles - ensure it spans the full scrollable width */
+	@media (max-width: 768px) {
+		min-width: 600px;
+	}
+
+	@media (max-width: 480px) {
+		min-width: 500px;
 	}
 `;
 
@@ -83,12 +111,7 @@ function Body({ data, render }) {
 }
 
 function Footer({ children }) {
-	const { columns } = useContext(TableContext);
-	return (
-		<StyledFooter role="row" $columns={columns}>
-			{children}
-		</StyledFooter>
-	);
+	return <StyledFooter role="row">{children}</StyledFooter>;
 }
 
 function Table({ children, columns }) {

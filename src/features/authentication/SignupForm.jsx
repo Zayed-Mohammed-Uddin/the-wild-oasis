@@ -4,6 +4,8 @@ import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import { useSignup } from "./useSignup";
+import { useState } from "react";
+import FileInput from "../../ui/FileInput";
 
 function SignupForm() {
 	const {
@@ -16,9 +18,13 @@ function SignupForm() {
 
 	const { signup, isLoading } = useSignup();
 
-	const onSubmit = ({ fullName, email, password }) => {
+	const [avatar, setAvatar] = useState(null);
+
+	const onSubmit = (data) => {
+		const { fullName, email, password } = data;
+		if (!fullName || !email || !password) return;
 		signup(
-			{ fullName, email, password },
+			{ fullName, email, password, avatar },
 			{
 				onSettled: () => {
 					reset();
@@ -91,6 +97,15 @@ function SignupForm() {
 							value === watch("password") ||
 							"Passwords do not match",
 					})}
+				/>
+			</FormRow>
+
+			<FormRow label="Upload avatar">
+				<FileInput
+					id="avatar"
+					accept="image/*"
+					disabled={isLoading}
+					onChange={(e) => setAvatar(e.target.files[0])}
 				/>
 			</FormRow>
 

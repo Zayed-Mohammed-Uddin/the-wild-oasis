@@ -21,6 +21,7 @@ import {
 import { useDeleteBooking } from "./useDeleteBooking";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
+import EmptyBox from "../../ui/EmptyBox";
 
 const HeadingGroup = styled.div`
 	display: flex;
@@ -36,7 +37,7 @@ function BookingDetail() {
 	const { status, id: bookingID } = bookingData || {};
 	const moveBack = useMoveBack();
 
-	if (!bookingData) return null;
+	if (!bookingData) return <EmptyBox resourceName="booking" />;
 	if (isLoading) return <Spinner />;
 
 	const statusToTagName = {

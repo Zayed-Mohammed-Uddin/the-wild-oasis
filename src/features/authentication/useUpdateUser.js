@@ -9,7 +9,8 @@ export function useUpdateUser() {
 		isPending: isLoading,
 		isError,
 	} = useMutation({
-		mutationFn: () => updateCurrentUserApi(),
+		mutationFn: ({ fullName, password, avatar }) =>
+			updateCurrentUserApi({ fullName, password, avatar }),
 		onSuccess: (data) => {
 			toast.success("Successfully updated user information");
 			queryClient.setQueryData(["user"], data.user);

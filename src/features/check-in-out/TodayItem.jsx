@@ -19,21 +19,6 @@ const StyledTodayItem = styled.li`
 	&:first-child {
 		border-top: 1px solid var(--color-grey-100);
 	}
-
-	/* Tablet */
-	@media (max-width: 768px) {
-		grid-template-columns: auto 1fr auto;
-		row-gap: 0.8rem;
-	}
-
-	/* Mobile */
-	@media (max-width: 640px) {
-		grid-template-columns: 1fr;
-		row-gap: 0.8rem;
-		& button {
-			justify-self: end;
-		}
-	}
 `;
 
 const Guest = styled.div`
@@ -46,8 +31,8 @@ function TodayItem({ activity }) {
 
 	return (
 		<StyledTodayItem>
-			{status === "unconfirmed" && <Tag type="green">Arriving</Tag>}
-			{status === "checked-in" && <Tag type="blue">Departing</Tag>}
+			{status === "unconfirmed" && <Tag $type="green">Arriving</Tag>}
+			{status === "checked-in" && <Tag $type="blue">Departing</Tag>}
 
 			<Flag src={guests.countryFlag} alt={`Flag of ${guests.country}`} />
 			<Guest>{guests.fullName}</Guest>

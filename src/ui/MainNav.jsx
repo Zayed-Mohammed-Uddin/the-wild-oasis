@@ -20,7 +20,6 @@ const StyledNavLink = styled(NavLink)`
 		display: flex;
 		align-items: center;
 		gap: 1.2rem;
-
 		color: var(--color-grey-600);
 		font-size: 1.6rem;
 		font-weight: 600;
@@ -52,32 +51,37 @@ const StyledNavLink = styled(NavLink)`
 	}
 `;
 
-function MainNav() {
+function MainNav({ onNavigate }) {
+	const handleNavClick = () => {
+		// Close sidebar on mobile when navigation item is clicked
+		if (onNavigate) onNavigate();
+	};
+
 	return (
 		<nav>
 			<NavList>
 				<li>
-					<StyledNavLink to="/dashboard">
+					<StyledNavLink to="/dashboard" onClick={handleNavClick}>
 						<HiOutlineHome /> <span>Home</span>
 					</StyledNavLink>
 				</li>
 				<li>
-					<StyledNavLink to="/bookings">
+					<StyledNavLink to="/bookings" onClick={handleNavClick}>
 						<HiCalendarDays /> <span>Bookings</span>
 					</StyledNavLink>
 				</li>
 				<li>
-					<StyledNavLink to="/cabins">
+					<StyledNavLink to="/cabins" onClick={handleNavClick}>
 						<HiHomeModern /> <span>Cabins</span>
 					</StyledNavLink>
 				</li>
 				<li>
-					<StyledNavLink to="/users">
+					<StyledNavLink to="/users" onClick={handleNavClick}>
 						<HiOutlineUsers /> <span>Users</span>
 					</StyledNavLink>
 				</li>
 				<li>
-					<StyledNavLink to="/settings">
+					<StyledNavLink to="/settings" onClick={handleNavClick}>
 						<HiCog8Tooth /> <span>Settings</span>
 					</StyledNavLink>
 				</li>

@@ -15,7 +15,7 @@ function SortBy({ options }) {
 			options={options}
 			value={sortBy}
 			handler={handleChange}
-			type="white"
+			$type="white"
 		/>
 	);
 }

@@ -12,6 +12,18 @@ const StyledSelect = styled.select`
 	background-color: var(--color-grey-0);
 	font-weight: 500;
 	box-shadow: var(--shadow-sm);
+
+	/* Mobile/tablet */
+	@media (max-width: 768px) {
+		font-size: 1.3rem;
+		padding: 0.7rem 1rem;
+		width: 100%;
+	}
+
+	@media (max-width: 480px) {
+		font-size: 1.2rem;
+		padding: 0.6rem 0.8rem;
+	}
 `;
 
 function Select({ value, options, handler, ...props }) {
